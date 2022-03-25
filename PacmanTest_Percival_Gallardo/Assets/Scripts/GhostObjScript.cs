@@ -12,8 +12,11 @@ public class GhostObjScript : MonoBehaviour
 
     [SerializeField] Vector2 _cornerToscatter;
     [SerializeField] TypeofGhost ghostColor;
+    [SerializeField] float _waitToLeave;
+    [SerializeField] bool _hasLeftOnce=false;
 
-   
+
+
 
     void Awake()
     {
@@ -37,4 +40,20 @@ public class GhostObjScript : MonoBehaviour
     public Vector2 CornerToScatter {
         get { return _cornerToscatter; }
     }
+    public float WaitToLeave
+    {
+        get { return _waitToLeave; }
+    }
+    public bool HasLeftOnce
+    {
+        get { return _hasLeftOnce; }
+    }
+    public TypeofGhost GetGhostColor
+    {
+        get { return ghostColor; }
+    }
+    //public Collider2D GetColider
+    //{
+    //    get { return collider; }
+    //}
 }

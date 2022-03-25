@@ -17,6 +17,9 @@ public class PacMan: MonoBehaviour
     private Vector3 startingPlace;
     #region CharacterController
     private PlayerControls controller;
+    private Direction _directionEnum;
+
+
 
     private void OnEnable()
     {
@@ -29,7 +32,7 @@ public class PacMan: MonoBehaviour
     }
     #endregion
 
-    public PacMan instance=null;
+    public static PacMan instance=null;
     private void Awake()
     {
         if (instance == null)
@@ -74,6 +77,7 @@ public class PacMan: MonoBehaviour
         if (!Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y) + context.ReadValue<Vector2>(), .2f, stopMovement))
         {
             this.direction = context.ReadValue<Vector2>();
+            SetCurrentDirection(context.ReadValue<Vector2>());
         }
 
 
@@ -82,6 +86,39 @@ public class PacMan: MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
     }
 
+    //Helper funtion to translate vector to dir
+    public void SetCurrentDirection(Vector2 vector)
+    {
 
+        switch (vector)
+        {
+            case Vector2 v when v.Equals(Vector2.up):
+                _directionEnum = Direction.UP;
+                break;
+
+            case Vector2 v when v.Equals(Vector2.down):
+                _directionEnum = Direction.DOWN;
+                break; 
+            case Vector2 v when v.Equals(Vector2.left):
+                _directionEnum = Direction.LEFT;
+                break;
+            case Vector2 v when v.Equals(Vector2.right):
+                _directionEnum = Direction.RIGHT;
+                break;
+            default:
+                
+                break;
+
+        }
+
+    }
+
+    
+    public Direction DirectionEnum
+    {
+        get{
+            return _directionEnum;
+        }
+    }
 
 }

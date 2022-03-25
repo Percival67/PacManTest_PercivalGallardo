@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ScaterState", menuName = "GhostSates/Scater")] 
-public class GhostScaterState : AbstractGhostState
+public class GhostScatterState : AbstractGhostState
 {
     public void OnEnable()
     {
@@ -42,6 +42,5 @@ public class GhostScaterState : AbstractGhostState
     public override void SetTarget()
     {
         target = ghostObj.CornerToScatter;
-       //target= new Vector2(.5f, 11.5f);
     }
 }

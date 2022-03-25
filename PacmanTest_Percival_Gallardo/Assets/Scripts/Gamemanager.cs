@@ -5,7 +5,7 @@ using UnityEngine;
 public class Gamemanager : MonoBehaviour
 {
     #region Singlaton
-    public Gamemanager instance = null;
+    public static Gamemanager instance = null;
     void Awake()
     {
         if (instance == null)
@@ -20,7 +20,10 @@ public class Gamemanager : MonoBehaviour
     }
     #endregion
 
+    public GameObject RedGhost;
+    public GameObject PointOutsideBox, PointInsideBox;
 
+    public float Timer = 0;
 
     void Start()
     {
@@ -30,7 +33,7 @@ public class Gamemanager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Timer += Time.deltaTime;
     }
 
     public void GameOver()

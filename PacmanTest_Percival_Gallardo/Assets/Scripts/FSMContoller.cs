@@ -38,14 +38,17 @@ public class FSMContoller : MonoBehaviour
 
     void Start()
     {
-        EnterState(FSMStatesAvalable.SCATTER);
+        EnterState(FSMStatesAvalable.HOME);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        if (currentState != null)
+        {
+            currentState.Update();
+        }
     }
 
     public void EnterState(AbstractGhostState nextState)
@@ -61,6 +64,7 @@ public class FSMContoller : MonoBehaviour
         currentState = nextState;
         currentState.Enter();
 
+        
     }
 
     public void EnterState(FSMStatesAvalable stateType)
@@ -85,5 +89,6 @@ public class FSMContoller : MonoBehaviour
             currentState.UpdateStep();
         }
     }
+
 
 }

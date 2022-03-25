@@ -7,9 +7,13 @@ using System;
 public enum FSMStatesAvalable
 {
     SCATTER,
-    CHASE,
     EATEN,
-    FRIGHTENED
+    FRIGHTENED,
+    CHASERED,
+    CHASEPINK,
+    CHASEBLUE,
+    CHASEYELLOW,
+    HOME
 }
 public enum ExecutionState
 {
@@ -19,7 +23,7 @@ public enum ExecutionState
 public enum TypeofGhost
 {
     RED,
-    WHITE,
+    PINK,
     BLUE,
     YELLOW
 
@@ -46,7 +50,10 @@ public abstract class AbstractGhostState : ScriptableObject
     
 
 
+    public virtual void Update()
+    {
 
+    }
 
     public virtual bool Enter() {
         executionState = ExecutionState.UPDATE;
@@ -85,6 +92,10 @@ public abstract class AbstractGhostState : ScriptableObject
     }
     public virtual void Exit() { executionState = ExecutionState.EXIT; }
 
+    public virtual IEnumerator ExitHomeFirstTime()
+    {
+        return null;
+    }
 
     #region BasicNavegation
     //abstract as every state has a diferent way of getting the Target
@@ -163,6 +174,9 @@ public abstract class AbstractGhostState : ScriptableObject
         rigidbody.MovePosition(position + translation);
 
     }
+
+
+    //public virtual void Get()
 
     //Helper funtion to get Directions in verctor2
     public Vector2 GetForwardTileDir(Direction _direction)

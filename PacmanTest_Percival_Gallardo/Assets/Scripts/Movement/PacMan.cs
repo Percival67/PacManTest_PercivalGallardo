@@ -63,10 +63,13 @@ public class PacMan: MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 position = rigidbody.position;
-        Vector2 translation = direction * speed * Time.fixedDeltaTime;
+        if (Gamemanager.instance.Timer>0) {
+            Vector2 position = rigidbody.position;
+            Vector2 translation = direction * speed * Time.fixedDeltaTime;
 
-        rigidbody.MovePosition(position + translation);
+            rigidbody.MovePosition(position + translation);
+
+        }
     }
 
 

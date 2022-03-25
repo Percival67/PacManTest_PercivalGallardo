@@ -7,7 +7,8 @@ public class GhostHomeState : AbstractGhostState
 {
 
    
-    float timetowait;
+    float timetowait=0;
+    float timeatStart = 0;
    
 
     public void OnEnable()
@@ -21,7 +22,7 @@ public class GhostHomeState : AbstractGhostState
         {
             timetowait = ghostObj.WaitToLeave;
             direction = Direction.UP;
-            
+            timeatStart = Gamemanager.instance.Timer;
             Debug.Log("Entering Home mode");
             ghostObj.gameObject.layer = LayerMask.NameToLayer("NoColission");
 
@@ -51,16 +52,19 @@ public class GhostHomeState : AbstractGhostState
     }
 
     public override void UpdateStep()
+
     {
-        if (EnteredState &&ghostObj.transform.position.y < 18.5f)
-        {
-            MoveGhost();
-            
-        }
-        else
-        {
-            ghostObj.gameObject.layer = LayerMask.NameToLayer("Ghost"); ;
-            fsmComtroller.EnterState(FSMStatesAvalable.SCATTER);
+        if(Gamemanager.instance.Timer - timeatStart > timetowait){
+            if (EnteredState && ghostObj.transform.position.y < 18.5f)
+            {
+                MoveGhost();
+
+            }
+            else
+            {
+                ghostObj.gameObject.layer = LayerMask.NameToLayer("Ghost"); ;
+                fsmComtroller.EnterState(FSMStatesAvalable.SCATTER);
+            }
         }
     }
 

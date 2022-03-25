@@ -36,7 +36,7 @@ public class Dot : MonoBehaviour
             manager.AddScore(_pointsGiven);
             manager.Dotsleft--;
             StopAllCoroutines();
-            gameObject.GetComponent<Renderer>().enabled = false;
+            gameObject.SetActive(false);
         }
     }
 }

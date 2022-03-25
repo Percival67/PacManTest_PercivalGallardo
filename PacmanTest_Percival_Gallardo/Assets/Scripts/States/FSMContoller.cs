@@ -11,7 +11,7 @@ public class FSMContoller : MonoBehaviour
     [SerializeField]
     List<AbstractGhostState> validStates;
     Dictionary<FSMStatesAvalable, AbstractGhostState> fmsStates;
-
+   
 
     void Awake()
     {
@@ -48,8 +48,11 @@ public class FSMContoller : MonoBehaviour
         if (currentState != null)
         {
             currentState.Update();
+           
         }
     }
+
+   
 
     public void EnterState(AbstractGhostState nextState)
     {
@@ -90,5 +93,14 @@ public class FSMContoller : MonoBehaviour
         }
     }
 
+    public AbstractGhostState CurrentState
+    {
+        get { return currentState; }
+    }
+
+    public Dictionary<FSMStatesAvalable, AbstractGhostState> AfmsStates
+    {
+        get { return fmsStates; }
+    }
 
 }

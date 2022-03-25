@@ -45,7 +45,7 @@ public abstract class AbstractGhostState : ScriptableObject
     protected GhostObjScript ghostObj;
     protected FSMContoller fsmComtroller;
     protected Vector2 scatterCorner;
-    protected Vector2 target;
+    public Vector2 target;
     
     
 
@@ -64,7 +64,10 @@ public abstract class AbstractGhostState : ScriptableObject
 
 
     }
-    public virtual void UpdateStep() { 
+
+    
+    public virtual void UpdateStep() {
+        MoveGhost();
         executionState = ExecutionState.UPDATE;
         float tempx;
         float tempy;
@@ -86,8 +89,7 @@ public abstract class AbstractGhostState : ScriptableObject
             SetBestTileDirection();
             Debug.Log("Best Chosen");
         }
-
-        MoveGhost();
+        
 
     }
     public virtual void Exit() { executionState = ExecutionState.EXIT; }
@@ -118,8 +120,8 @@ public abstract class AbstractGhostState : ScriptableObject
             bool first = true;
             RaycastHit2D ray = Physics2D.Raycast(new Vector2(ghostObj.transform.position.x, ghostObj.transform.position.y), directionalTile, .6f, 1 << 3);
 
-            Debug.DrawRay(new Vector2(ghostObj.transform.position.x, ghostObj.transform.position.y), directionalTile, Color.red);
-            Debug.Log(ray.collider + " " + dir + "x: " + ghostObj.transform.position.x + " y: " + ghostObj.transform.position.y);
+            //Debug.DrawRay(new Vector2(ghostObj.transform.position.x, ghostObj.transform.position.y), directionalTile, Color.red);
+            //Debug.Log(ray.collider + " " + dir + "x: " + ghostObj.transform.position.x + " y: " + ghostObj.transform.position.y);
            
             //!Physics2D.OverlapCircle(new Vector2(ghostObj.transform.position.x, ghostObj.transform.position.y) + directionalTile, .2f, 1 << 3)
 
@@ -149,8 +151,7 @@ public abstract class AbstractGhostState : ScriptableObject
     {
         Vector2 position = rigidbody.position;
         Vector2 translation = new Vector2();
-        //Debug.Log("RigidPoss " + position);
-
+        
         switch (direction)
         {
             case Direction.UP:
@@ -170,13 +171,13 @@ public abstract class AbstractGhostState : ScriptableObject
 
                 break;
         }
-        //Debug.Log((position + translation));
+        
         rigidbody.MovePosition(position + translation);
 
     }
 
 
-    //public virtual void Get()
+
 
     //Helper funtion to get Directions in verctor2
     public Vector2 GetForwardTileDir(Direction _direction)
@@ -217,26 +218,7 @@ public abstract class AbstractGhostState : ScriptableObject
     }
     #endregion
 
-    //public virtual AbstractGhostState Process()
-    //{
-    //    if (executionState == ExecutionState.ENTER) Enter();
-    //    if (executionState == ExecutionState.UPDATE) UpdateStep();
-    //    if (executionState == ExecutionState.EXIT)
-    //    {
-    //        Exit();
-
-    //        return nextState;
-    //    }
-    //    return this;
-    //}
-
-    //public void SwitchToShell(AbstractGhostState state)
-    //{
-    //    nextState = state;
-    //    executionState = ExecutionState.EXIT;
-    //    state.executionState = ExecutionState.ENTER;
-
-    //}
+  
 
     #region SettingUpVariables
 
@@ -267,6 +249,27 @@ public abstract class AbstractGhostState : ScriptableObject
     }
 
   
+    public virtual FSMStatesAvalable GetChaseState(TypeofGhost color)
+    {
+        switch (color)
+        {
+            case TypeofGhost.RED:
+                return FSMStatesAvalable.CHASERED;
+                break;
+            case TypeofGhost.PINK:
+                return FSMStatesAvalable.CHASEPINK;
+                break;
+            case TypeofGhost.BLUE:
+                return FSMStatesAvalable.CHASEBLUE;
+                break;
+            case TypeofGhost.YELLOW:
+                return FSMStatesAvalable.CHASEYELLOW;
+                break;
+            default:
+                return FSMStatesAvalable.CHASERED;
+                break;
+        }
+    }
 
 
     #endregion

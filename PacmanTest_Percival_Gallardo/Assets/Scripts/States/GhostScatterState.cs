@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ScaterState", menuName = "GhostSates/Scater")] 
 public class GhostScatterState : AbstractGhostState
 {
+    float timetowait = 5;
+    float timeatStart = 0;
+
     public void OnEnable()
     {
         stateType = FSMStatesAvalable.SCATTER;
@@ -17,6 +20,7 @@ public class GhostScatterState : AbstractGhostState
             Debug.Log("Entered Scater Mode");
             SetTarget();
             direction = GetOpositeDirection();
+            timeatStart = Gamemanager.instance.Timer;
         }
         EnteredState = base.Enter();
         return EnteredState;
@@ -35,6 +39,10 @@ public class GhostScatterState : AbstractGhostState
         {
             base.UpdateStep();
             Debug.Log("Fix Updating Scater mode");
+            if (Gamemanager.instance.Timer - timeatStart > timetowait)
+            {
+                fsmComtroller.EnterState(GetChaseState(ghostObj.GetGhostColor));
+            }
         }
         
     }

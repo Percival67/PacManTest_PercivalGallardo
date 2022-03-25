@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Interseccion
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 0}
-  m_DefaultGameObject: {fileID: 0}
+  m_DefaultGameObject: {fileID: 5929232714706073310, guid: 5eb85ec2147700643a2aaade37d35600, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []

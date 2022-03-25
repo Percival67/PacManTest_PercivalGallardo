@@ -4,7 +4,12 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "FrightenedState", menuName = "GhostSates/Frightened")]
 public class GhostFrightenedState : AbstractGhostState
+
 {
+
+    float timetowait = 7;
+    float timeatStart = 0;
+
     public void OnEnable()
     {
         stateType = FSMStatesAvalable.FRIGHTENED;
@@ -16,9 +21,12 @@ public class GhostFrightenedState : AbstractGhostState
         {
             Debug.Log("Entered Frigthened Mode");
             direction = GetOpositeDirection();  //When entering Frigthen state ghost do a 180 turn.
+            timeatStart = Gamemanager.instance.Timer;
         }
         EnteredState = base.Enter();
         return EnteredState;
+
+        //set animation to blue scared ghost
 
     }
 
@@ -26,14 +34,20 @@ public class GhostFrightenedState : AbstractGhostState
     {
         base.Exit();
         Debug.Log("Exiting Frigthened mode");
+
+        //change back the animation to regular
     }
 
     public override void UpdateStep()
     {
         if (EnteredState)
         {
-            
+            base.UpdateStep();
             Debug.Log("Fix Updating Frigthened mode");
+            if (Gamemanager.instance.Timer - timeatStart > timetowait)
+            {
+                fsmComtroller.EnterState(GetChaseState(ghostObj.GetGhostColor));
+            }
         }
 
     }

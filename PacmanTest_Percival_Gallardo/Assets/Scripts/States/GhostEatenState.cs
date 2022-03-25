@@ -41,7 +41,8 @@ public class GhostEatenState : AbstractGhostState
             {
                 //Switch To idle
                 //Do Respawn animation
-                
+                fsmComtroller.EnterState(GetChaseState(ghostObj.GetGhostColor));
+
             }
             
         }

@@ -33,6 +33,7 @@ public class PacMan: MonoBehaviour
     #endregion
 
     public static PacMan instance=null;
+
     private void Awake()
     {
         if (instance == null)
@@ -142,6 +143,22 @@ public class PacMan: MonoBehaviour
     {
         get{
             return _directionEnum;
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Ghost")
+        {
+            if (collision.collider.GetComponent<FSMContoller>().CurrentState == collision.collider.GetComponent<FSMContoller>().AfmsStates[FSMStatesAvalable.FRIGHTENED])
+            {
+                collision.collider.GetComponent<FSMContoller>().EnterState(FSMStatesAvalable.EATEN);
+            }
+            else
+            {
+                Gamemanager.instance.Takedamage();
+            }
+            
         }
     }
 

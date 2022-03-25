@@ -29,8 +29,16 @@ public class PacMan: MonoBehaviour
     }
     #endregion
 
+    public PacMan instance=null;
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }else if (instance != this)
+        {
+            Destroy(this);
+        }
         controller = new PlayerControls();
         collider = GetComponent<Collider2D>();
         rigidbody = GetComponent<Rigidbody2D>();

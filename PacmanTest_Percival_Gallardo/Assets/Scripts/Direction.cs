@@ -4,5 +4,5 @@ using System.Collections.Generic;
 
 public enum Direction
 {
-    None, Up, Down, Left, Rigth
+     UP, DOWN, LEFT, RIGHT
 }

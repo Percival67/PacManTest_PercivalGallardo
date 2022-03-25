@@ -13,7 +13,7 @@ public class PacMan: MonoBehaviour
     private Rigidbody2D rigidbody;
     private Collider2D collider;
 
-    private Vector2 direction;
+    private Vector2 direction,nextDireccion;
     private Vector3 startingPlace;
     #region CharacterController
     private PlayerControls controller;
@@ -58,35 +58,56 @@ public class PacMan: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (this.nextDireccion != Vector2.zero)
+        {
+            MoveCharacterOnDirection(nextDireccion);
+        }
     }
 
     private void FixedUpdate()
     {
+        Vector2 translation;
         if (Gamemanager.instance.Timer>0) {
-            Vector2 position = rigidbody.position;
-            Vector2 translation = direction * speed * Time.fixedDeltaTime;
-
+            Vector2 position = rigidbody.position;     
+            translation = direction * speed * Time.fixedDeltaTime;
             rigidbody.MovePosition(position + translation);
 
         }
     }
+    private void MoveCharacterOnDirection(Vector2 _direction)
+    {
+        if (!IsOcupied(_direction))
+        {
 
+            direction = _direction;
+            nextDireccion = Vector2.zero;
+            SetCurrentDirection(direction);
+        }
+        else
+        {
+            nextDireccion = direction;
+        }
+        // Rotate pacman to face the movement direction
+        float angle = Mathf.Atan2(direction.y, direction.x);
+        transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
+    }
 
+    public bool IsOcupied(Vector2 _direction)
+    {
+
+        //Collider2D colider = Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y) + _direction, .4f, stopMovement);
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, Vector2.one * 0.75f, 0.0f, _direction, 1.5f, stopMovement);
+        Debug.Log(hit.collider);
+        return hit.collider != null;
+
+    }
 
 
     private void MoveCharacter(InputAction.CallbackContext context)
     {
-        if (!Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y) + context.ReadValue<Vector2>(), .2f, stopMovement))
-        {
-            this.direction = context.ReadValue<Vector2>();
-            SetCurrentDirection(context.ReadValue<Vector2>());
-        }
-
-
-        // Rotate pacman to face the movement direction
-        float angle = Mathf.Atan2(direction.y, direction.x);
-        transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
+        MoveCharacterOnDirection(context.ReadValue<Vector2>());
+          
+        
     }
 
     //Helper funtion to translate vector to dir

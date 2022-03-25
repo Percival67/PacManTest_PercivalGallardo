@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Dot : MonoBehaviour
 {
-    protected int _pointsGiven = 0;
+    [SerializeField]private int _pointsGiven = 10;
     Gamemanager manager;
+    [SerializeField] private bool _isPowerUPDot=false;
 
     void Start()
     {
@@ -17,13 +18,25 @@ public class Dot : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.otherCollider.tag == "Player")
+        if (collision.gameObject.tag == ("Player"))
         {
-            manager.AddScore(_pointsGiven);            
+           // Debug.Log("Hit");
+            if (_isPowerUPDot)
+            {
+                foreach (GameObject Ghost in GameObject.FindGameObjectsWithTag("Ghost"))
+                {
+                    Ghost.GetComponent<FSMContoller>().EnterState(FSMStatesAvalable.FRIGHTENED);
+                }
+
+            }
+            manager.AddScore(_pointsGiven);
+            manager.Dotsleft--;
             StopAllCoroutines();
-            gameObject.SetActive(false);
+            gameObject.GetComponent<Renderer>().enabled = false;
         }
     }
 }
